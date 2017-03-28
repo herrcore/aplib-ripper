@@ -23,7 +23,24 @@ To use aprip.py as a module you simply need to import it and use the **extract_a
 >>>
 ```
 
-#### aprip function reference 
+### aprip CLI
+To use aprip.py as a tool from the command line you simply need to pass it the name of the file that you will be extracting the aPlib compressed PE files from. Each extracted file will be written to a file “dump0.bin”, “dump1.bin”, …
+
+```
+$aprip test.bin 
+
+-----------------------------
+
+  APLIB RIPPER 1.1
+
+-----------------------------
+
+Ripping PE files, this may take some time...
+ - Ripped PE writing to file: dump0.bin
+ - Ripped PE writing to file: dump1.bin
+```
+
+## Aprip Function Reference 
 **_find_candidates(blob)_**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;Find potential aplib candidates.<br>
 &nbsp;&nbsp;&nbsp;&nbsp;**Args:**<br>
@@ -46,22 +63,6 @@ To use aprip.py as a module you simply need to import it and use the **extract_a
 &nbsp;&nbsp;&nbsp;&nbsp;**Returns:**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list: list of PE files that have been extracted (empty if none are found)<br>
 
-### aprip CLI
-To use aprip.py as a tool from the command line you simply need to pass it the name of the file that you will be extracting the aPlib compressed PE files from. Each extracted file will be written to a file “dump0.bin”, “dump1.bin”, …
-
-```
-$aprip test.bin 
-
------------------------------
-
-  APLIB RIPPER 1.1
-
------------------------------
-
-Ripping PE files, this may take some time...
- - Ripped PE writing to file: dump0.bin
- - Ripped PE writing to file: dump1.bin
-```
 ## Acknowledgments
 A big thank you to the creator of the aplib python module: Kabopan http://code.google.com/p/kabopan/
 
