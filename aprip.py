@@ -19,12 +19,14 @@
 #############################################################################
 
 __author__ = "@herrcore"
-__version__ = "1.0"
+__version__ = "1.1"
 
 import aplib 
 import re
 import argparse
 import pefile
+import os
+import sys
 
 aplib_magic = (r"M8Z")
 dos_strings = ["This program must be run under Win32", 
@@ -104,6 +106,45 @@ def extract_all(blob):
     return out
 
 
+#############################################################################
+#
+# Below here is just fancy stuff for the CLI
+#
+#############################################################################
+
+
+def color(text, color_code):
+    """Format text for color code
+    """
+    if sys.platform == "win32" and os.getenv("TERM") != "xterm":
+        return text
+    return '\x1b[%dm%s\x1b[0m' % (color_code, text)
+
+
+def red(text):
+    """Format text as red
+    """
+    return color(text, 31)
+
+
+def green(text):
+    """Format text as green
+    """
+    return color(text, 32)
+
+
+def banner():
+    """Print a pretty banner for CLI use.
+    """
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print
+    print '-----------------------------'
+    print
+    print '  APLIB RIPPER %s' % __version__
+    print
+    print '-----------------------------'
+    print
+
 
 def main():
     parser = argparse.ArgumentParser(description="Find and extract aplib packed PE files. Output: dump1.bin, dump2.bin, ...")
@@ -114,14 +155,24 @@ def main():
     with open(args.infile, "rb") as fp:
         data = fp.read()
 
+    # Some UI candy
+    banner()
+    print "Ripping PE files, this may take some time..."
+
     # Extract all aplib compressed PE files
     pe_files = extract_all(data)
 
     # Write extracted PE files to dump1.bin, dump2.bin etc.
+    flag_fail = True
     for ptr in range(0,len(pe_files)):
+        flag_fail = False
         outfile = "dump%d.bin" % ptr
+        print green(" - Ripped PE writing to file: %s" % outfile)
         with open(outfile, "wb") as fp:
             fp.write(pe_files[ptr])
+    
+    if flag_fail:
+        print red(" - No PE files found!")
 
 
 if __name__ == '__main__':
