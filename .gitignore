@@ -1,3 +1,7 @@
+## Custom for this repo
+## Don't commit any output files
+dump*.bin
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

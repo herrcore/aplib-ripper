@@ -56,8 +56,6 @@ def extract_candidate(blob, offset):
     Returns:
         string: extracted PE file (none if no PE is extracted)
     """
-    # Attempt to decrypt DOS header and verify DOS string exists
-    out = None
     try:
         candidate = blob[offset:]
         ptext = aplib.decompress(candidate).do()[0] 
