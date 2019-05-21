@@ -4,7 +4,7 @@ import os
 
 setup(
     name='aprip',
-    version=1.1,
+    version=1.2,
     url='https://github.com/herrcore/aplib-ripper',
     author="@herrcore",
     description="Automatically extract PE files compressed with aplib from a binary blob",

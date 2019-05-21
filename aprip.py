@@ -19,7 +19,7 @@
 #############################################################################
 
 __author__ = "@herrcore"
-__version__ = "1.1"
+__version__ = "1.2"
 
 import aplib 
 import re
@@ -29,11 +29,6 @@ import os
 import sys
 
 aplib_magic = (r"M8Z")
-dos_strings = ["This program must be run under Win32", 
-                "This program cannot be run in DOS mode", 
-                "This program requires Win32", 
-                "This program must be run under Win64"]
-
 
 def find_candidates(blob):
     """Find potential aplib candidates.
@@ -66,20 +61,12 @@ def extract_candidate(blob, offset):
     try:
         candidate = blob[offset:]
         ptext = aplib.decompress(candidate).do()[0] 
-        # Carve the first 128 bytes to check the DOS header
-        flag_dos = False
-        for egg in dos_strings:
-            if egg in ptext[:128]:
-                flag_dos = True
-
         # If this is a valid PE file find the length and trim it
-        if flag_dos:
-            pe = pefile.PE(data=ptext)
-            # Remove overlay
-            return pe.trim()
-        else:
-            # TODO: add in logging and option to pass this check
-            return None
+        # If it's not valid pefile will throw and error and we will
+        # return None
+        pe = pefile.PE(data=ptext)
+        # Remove overlay
+        return pe.trim()
     except Exception as e:
         return None
 
